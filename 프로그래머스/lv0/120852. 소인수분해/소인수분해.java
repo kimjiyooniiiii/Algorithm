@@ -8,7 +8,9 @@ class Solution {
         
         while(start <= n && n != 1){
             if(n % start == 0){
-                list.add(start);
+                if(!list.contains(start)){
+                    list.add(start);
+                }
                 n /= start;
             }else{
                 start++;
