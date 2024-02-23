@@ -1,41 +1,31 @@
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.*;
 
 public class Main {
+
+    public static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    public static int[][] list = new int[101][10];
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int[][] array = new int[101][10];
-
-        for(int j=1; j<array[1].length; j++) {
-            array[1][j] = 1;
+        for(int j=1; j<=9; j++) {
+            list[1][j] = 1;
         }
 
-        for(int i=2; i<array.length; i++) {
-            for(int j=0; j<array[i].length; j++) {
-                if(j == 0){
-                    array[i][j] = array[i-1][j+1];
-                }
-                else if(j == 9){
-                    array[i][j] = array[i-1][j-1];
-                }
-                else{
-                    array[i][j] = (array[i-1][j-1] + array[i-1][j+1]) % 1000000000;
-                }
+        for(int i=2; i<list.length; i++) {
+            list[i][0] = list[i-1][1];
+            for(int j=1; j<=8; j++) {
+                list[i][j] = (list[i-1][j-1] + list[i-1][j+1]) % 1000000000;
             }
+            list[i][9] = list[i-1][8];
         }
 
-        int test = Integer.parseInt(br.readLine());
+        int input = Integer.parseInt(br.readLine());
         int result = 0;
-
-        for(int j=0; j<array[test].length; j++) {
-            result = (result + array[test][j]) % 1000000000;
+        for(int i=0; i<10; i++) {
+            result  = (result + list[input][i]) % 1000000000;
         }
-        bw.write(result + "");
-        bw.flush();
-
+        System.out.println(result);
         bw.close();
     }
 }
