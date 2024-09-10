@@ -1,32 +1,34 @@
 import java.util.*;
-
+// 42 
 class Solution {
-    public Set<Integer> sum = new HashSet<>();
     public int solution(int[] elements) {
         int answer = 0;
+        Set<Integer> sumCollection = new HashSet<>();
         
         for(int i=0; i<elements.length; i++){
-            sum.add(elements[i]);
-        }
-        
-        int start = 0, end = 2; // 10 12
-
-        for(int size=2; size<elements.length; size++){
-            for(int i=0; i<elements.length; i++){
-                int add = 0;
-                for(int j=0; j<size; j++){
-                    int next = i+j;
-                
-                    if(next >= elements.length){
-                        next -= elements.length;
-                    }
-                    add += elements[next];
-                    //System.out.println(elements[next]);
+            sumCollection.add(elements[i]);
+            int sum = elements[i];
+             //System.out.print(sum + " ");       // 첫 노드
+            for(int j=1; j<elements.length; j++){
+                int neighbor = i+j;
+                if(neighbor >= elements.length){
+                    neighbor = (i+j) - elements.length;
                 }
-                sum.add(add);
+                sum += elements[neighbor];
+                sumCollection.add(sum);
+                //System.out.println(elements[neighbor] + " " + sum);
             }
+           // System.out.println();
         }
-        answer = (sum.size()) + 1;
+//         for(int i : sumCollection){
+//             System.out.print(i + " ");
+//         }
+        
+        
+        answer = sumCollection.size();
+        
         return answer;
     }
 }
+
+// 원형 수열에서 수열로 만들 수 있는 것들을 합으로 표현하고 그것의 개수를 반환
