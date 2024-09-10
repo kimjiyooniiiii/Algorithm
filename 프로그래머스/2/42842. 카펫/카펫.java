@@ -1,29 +1,26 @@
+// 3:22 -> 36
 class Solution {
     public int[] solution(int brown, int yellow) {
         int[] answer = new int[2];
+        int all = brown + yellow;
         
-        // yellow의 가로가 최대 개수 -> 1개까지 완전탐색
-        for(int i=yellow; i>0; i--) {
-            int row = i;
-            int column = yellow/i;
-            if(yellow%i != 0){
-                continue;
-            }
+        for(int i=1; i<= Math.sqrt(yellow); i++){   // i 최대값 다시 점검
+            if(yellow % i != 0) continue;
             
-            if(brown == calculate(row, column)){
-                System.out.println(row + " " + column);
-                answer[0] = row + 2;
-                answer[1] = column + 2;
+            int yellowColumn = i;
+            int yellowRow = yellow / i;
+            
+            int brownColumn = yellowColumn + 2;
+            int brownRow = yellowRow + 2;
+            
+            if(brownColumn * brownRow == all){
+                answer[0] = brownRow;
+                answer[1] = brownColumn;
                 break;
             }
         }
+        
         return answer;
     }
-    
-    public int calculate(int yRow, int yColumn) {
-        int bRow = yRow + 2;
-        int bColumn = yColumn + 2;
-        int bCount = (bRow * bColumn) - (yRow * yColumn);
-        return bCount;
-    }
+
 }
