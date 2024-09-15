@@ -1,25 +1,20 @@
-
+// 12:02 -> 24
 class Solution {
     public int[] solution(int n, long left, long right) {
-        int resultSize = (int)(right-left)+1;
-        int[] answer = new int[resultSize];
+        int[] answer = new int[(int)(right-left)+1];
         
-        for(long i=left; i<=right; i++){
-            int row = (int)(i/n);
-            int column = (int)(i%n);
+        for(long i=left; i<=right; i++){ 
+            int row = (int)(i / n) + 1;
+            int remainder = (int)(i % n);
+            int diff = remainder - row;
             
-            //System.out.println((i/n) + " " + (i%n));
-            
-            int max = Math.max(row,column);
-            answer[(int)(i-left)] = max+1;
-    
+            if(diff < 0){
+                answer[(int)(i-left)] = row;
+            }else{
+                answer[(int)(i-left)] = row + diff + 1;
+            }
         }
         
         return answer;
     }
 }
-
-
-// 1천만 * 1천만 
-// 배열 자르기?
-// 자른 배열 최대크기 10만
