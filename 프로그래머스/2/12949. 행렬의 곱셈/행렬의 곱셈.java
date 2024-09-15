@@ -1,25 +1,25 @@
+
 class Solution {
     
     public int[][] solution(int[][] arr1, int[][] arr2) {
-        int height = arr1.length, width = arr2[0].length;
+        int width = arr2[0].length, height = arr1.length;
+        int[][] answer = new int[height][width];
         
-        int[][] answer = new int[height][width]; // 공간복잡도 10000 O(n^2)
-        
-        for(int i=0; i<height; i++){    // 시간복잡도 10000 * 100    O(n^2)
+        for(int i=0; i<height; i++){
             for(int j=0; j<width; j++){
-                answer[i][j] = multiple(arr1[i].length,i,j,arr1,arr2);
+                answer[i][j] = multiply(i,j,arr2.length, arr1, arr2);
             }
         }
         
+        
         return answer;
     }
-    
-    public int multiple(int cycle, int row, int column, int[][] arr1, int[][] arr2){
-        int sum = 0;
 
-        for(int i=0; i<cycle; i++){
-            //System.out.println(arr1[row][i]);
-            sum += (arr1[row][i] * arr2[i][column]);
+    public int multiply(int arr1Row, int arr2Column, int height, int[][] arr1, int[][] arr2){
+        int sum = 0;
+        
+        for(int i=0; i<height; i++){
+            sum += arr1[arr1Row][i] * arr2[i][arr2Column];
         }
         return sum;
     }
