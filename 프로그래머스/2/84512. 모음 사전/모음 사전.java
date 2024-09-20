@@ -1,32 +1,34 @@
+// 12 : 22 -> 38 -> 51   30분
 class Solution {
-    public String[] array = new String[5];
-    public int count = 0;
-    public int result = 0;
-    public StringBuilder sb = new StringBuilder(5);
+    private String[] alpha = {"A","E","I","O","U"};
+    private String[] visit = new String[6];
+    private int result = -1;
+    private int count = 0;
     
     public int solution(String word) {
-        String[] s = {"A","E","I","O","U"};
-        dfs(s, word, 0);
+        dfs(0, word);
+        
         return result;
     }
     
-    public void dfs(String[] s, String word, int order){
-        for(int i=0; i<order; i++){
-            sb.append(array[i]);
+    public void dfs(int len, String word){
+        if(len > 5) return;
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for(int i=0; i<len; i++){
+            sb.append(visit[i]);
         }
+
         if(sb.toString().equals(word)){
             result = count;
         }
         count++;
-        sb.setLength(0);
-
-        if(order == 5){
-            return;
-        }
-
-        for(int i=0; i<s.length; i++){
-            array[order] = s[i];
-            dfs(s, word, order+1);
+        
+        for(int i=0; i<5; i++){
+            visit[len] = alpha[i];
+            dfs(len + 1, word);
         }
     }
+
 }
