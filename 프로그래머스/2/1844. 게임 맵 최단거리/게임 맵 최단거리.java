@@ -1,50 +1,35 @@
+// 20분 동안 풀이
 import java.util.*;
 
 class Solution {
-    Queue<int[]> q = new LinkedList<>();
-    int[] dy = {-1, 1, 0, 0};
-    int[] dx = {0, 0, -1, 1};
-    int h = 0, w = 0;
-    boolean[][] visited;
+    private int[] dy = {-1,1,0,0};
+    private int[] dx = {0,0,1,-1};
     
     public int solution(int[][] maps) {
-        int answer = 0;
-        
-        h = maps.length;
-        w = maps[0].length;
-        
-        visited = new boolean[h][w];
-        visited[0][0] = true;
-        q.add(new int[]{0,0});
-        
-        answer = bfs(maps);
-        
-        return answer;
+        return bfs(maps);
     }
     
-    public int bfs(int[][] maps) {
+    public int bfs(int[][] maps){
+        boolean[][] visit = new boolean[maps.length][maps[0].length];
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{0,0});
+        visit[0][0] = true;
+        
         while(!q.isEmpty()){
-            int[] peek = q.poll();
-            int y = peek[0];
-            int x = peek[1];
-            
-            if(y == h-1 && x == w-1){
-                return maps[y][x];
-            }
-            
-            for(int i=0; i<4; i++) {
-                int nextY = y + dy[i];
-                int nextX = x + dx[i];
+            int[] poll = q.poll();
+            for(int i=0; i<4; i++){
+                int nextY = poll[0] + dy[i];
+                int nextX = poll[1] + dx[i];
+                if(nextY == maps.length-1 && nextX == maps[0].length-1) {
+                    return maps[poll[0]][poll[1]] + 1;
+                }
                 
-               // System.out.println(h + " " + w);
-                
-                if(nextY>=0 && nextY<h && nextX>=0 && nextX<w) {
-                  //  System.out.println(nextY + " " + nextX);
-                    if(maps[nextY][nextX] == 1 && visited[nextY][nextX] == false) {
-                        visited[nextY][nextX] = true;
-                        q.add(new int[]{nextY,nextX});
-                        maps[nextY][nextX] += maps[y][x];
-
+                if(nextY >= 0 && nextX >=0 && nextY < maps.length && nextX < maps[0].length){
+                    if(!visit[nextY][nextX] && maps[nextY][nextX] == 1){
+                        //System.out.println(nextY + " " + nextX + " " + (maps[poll[0]][poll[1]] + 1));
+                        q.add(new int[]{nextY, nextX});
+                        maps[nextY][nextX] = maps[poll[0]][poll[1]] + 1;
+                        visit[nextY][nextX] = true;
                     }
                 }
             }
