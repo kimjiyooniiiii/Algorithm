@@ -1,48 +1,42 @@
+// 8:00
 import java.util.*;
 class Solution {
     public int[] solution(String[] operations) {
         int[] answer = new int[2];
-        PriorityQueue<Integer> number = new PriorityQueue<>(Comparator.reverseOrder());
-        Stack<Integer> temp = new Stack<>();
+
+        PriorityQueue<Integer> q = new PriorityQueue<>(Collections.reverseOrder());
         
-        for(int i=0; i<operations.length; i++){
-            String[] oper = operations[i].split(" ");
-            if(oper[0].equals("I")){
-                number.add(Integer.parseInt(oper[1]));
-                //System.out.println(oper[1] + "삽입");
-            }else if(oper[1].equals("-1")){     // 최소값 삭제
-                removeMin(number, temp);
-            }else{
-                if(!number.isEmpty()){
-                    int n = number.poll();
-                   // System.out.println(n + "삭제");
-                }
+        for(String o : operations){
+            String[] split = o.split(" ");
+            if(split[0].equals("I")) q.add(Integer.parseInt(split[1]));
+            else if(split[1].equals("1") && !q.isEmpty()) q.poll();
+            else {
+                lastNumber(q);
             }
+            
+            // Iterator<Integer> it = q.iterator();
+            // while(it.hasNext()) {
+            //     System.out.print(it.next() + " ");
+            // }
+            // System.out.println();
         }
         
-        if(number.size() == 1){
-            int n = number.poll();
-            answer[0] = n; answer[1] = n;
-        }else if(number.size() > 1){
-            answer[0] = number.poll();
-            answer[1] = removeMin(number, temp);
+        if(!q.isEmpty()){
+            answer[0] = q.peek();
+            answer[1] = lastNumber(q);
         }
         
         return answer;
     }
     
-    public int removeMin(PriorityQueue<Integer> number, Stack<Integer> temp){
-        int n = 0;
-        if(!number.isEmpty()){
-            while(!number.isEmpty()){
-                temp.push(number.poll());
-            }
-            n = temp.pop();
-            //System.out.println(n + "삭제");
-            while(!temp.isEmpty()){
-                number.add(temp.pop());
-            }
+    public int lastNumber(PriorityQueue<Integer> q) {
+        int last = 0;
+        if(!q.isEmpty()){
+            List<Integer> temp = new ArrayList<>();
+            while(q.size() > 1) temp.add(q.poll());
+            last = q.poll();
+            for(int t : temp) q.add(t);
         }
-        return n;
+        return last;
     }
 }
