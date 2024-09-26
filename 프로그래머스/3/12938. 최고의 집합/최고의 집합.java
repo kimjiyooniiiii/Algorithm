@@ -1,19 +1,20 @@
+// 8:37
 import java.util.*;
 class Solution {
     public int[] solution(int n, int s) {
-        int[] answer = {-1};
+        int[] answer = new int[n];
         
-        if(n <= s){
-            answer = new int[n];
-            int index = 0;
-            while(n > 0){
-                int divide = s / n;
-                answer[index++] = divide;
-                s -= divide;
-                n--;
-            }
+        int q = s/n;
+        int d = s - (q * n);
+        if(q == 0) return new int[]{-1};
+        
+        for(int i=0; i<n-d; i++){
+            answer[i] = q;
         }
-        
+        for(int i=n-d; i<n; i++){
+            answer[i] = q+1;
+        }
+      
         return answer;
     }
 }
