@@ -1,40 +1,45 @@
+// 10:34 -> 11:06
 import java.util.*;
 class Solution {
     public int solution(int[] order) {
         int answer = 0;
-        int cur = 1;    // 컨테이너 벨트에서 나오는 순서
         Stack<Integer> sub = new Stack<>();
         
-        for(int i=0; i<order.length; i++){  // 기사님이 말씀한 순서
-            int search = order[i];
-            boolean isSame = false;
-            //System.out.println("찾는 물건 " + search);
-            
-            if(!sub.isEmpty() && sub.peek() == search){ // 보조 컨테이너에 있다면
-                //System.out.println("보조에 있음 " + search);
-                sub.pop();
-                answer++;
-                continue;
-            }
-            while(cur <= order.length){
-                if(search == cur){
-                    //System.out.println("컨테이너에 있음 " + search);
-                    answer++;
-                    cur++;
-                    isSame = true;
-                    break;
-                }
-                //System.out.println("컨테이너 뒤지기 " + cur);
-                sub.push(cur++);
-            }
-            if(!isSame){
-                //System.out.println("아무데서도 못찾음");
+        int max = order.length;
+        int newB = 0;
+        int selectB = 0;
+        
+        while(true){
+            if(newB > max-1 || selectB > max-1) {
+                //System.out.println(newB > max-1 || selectB > max-1);
                 break;
+            }
+            if(newB+1 == order[selectB]){
+              //  System.out.println(newB+1 + "==" + order[selectB]);
+                answer++;
+                newB++; selectB++;
+            }else if(newB+1 > order[selectB]){
+                if(sub.isEmpty() || sub.peek() != order[selectB]) break;
+                else{
+                    int s = sub.pop();  selectB++;  answer++;
+                //    System.out.println(s + "==" + order[--selectB]);
+                //    selectB++;
+                }
+            }else{
+                sub.push(++newB);
+               // System.out.println("push " + (newB));
             }
         }
         
+        while(!sub.isEmpty() && selectB <= max-1){
+            if(sub.peek() != order[selectB]) break;
+            else{
+                int s = sub.pop();  selectB++;  answer++;
+               // System.out.println(s + "==" + order[--selectB]);
+               // selectB++;
+            }
+        }
+       
         return answer;
     }
 }
-
-// 보조 컨테이너 벨트 - 스택
