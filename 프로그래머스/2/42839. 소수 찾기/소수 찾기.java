@@ -1,67 +1,60 @@
+// 6:7 -> 24
 import java.util.*;
 class Solution {
-    char[] result;
-    boolean[] visit;
-    Set<Integer> numSet = new HashSet<>();
+    private int[] numArray;
+    private boolean[] visit;
+    private Set<Integer> set = new HashSet<>();
     public int solution(String numbers) {
-        int answer = 0;
-        result = new char[numbers.length()];
+        numArray = new int[numbers.length()];
         visit = new boolean[numbers.length()];
         
         for(int i=0; i<numbers.length(); i++){
+            int num = numbers.charAt(i) - '0';
             visit[i] = true;
-            result[0] = numbers.charAt(i);
-            dfs(1, numbers);
+            numArray[0] = num;
+            dfs(numbers, 1);
+            
             visit[i] = false;
         }
-        Iterator it = numSet.iterator();
-        while(it.hasNext()){
-            int next = (int)it.next();
-            if(next != 0 && next != 1 && isPrime(next)){
-                System.out.println(next);
-                answer++;
-            }
-        }
+        
+        // for(int s : set){
+        //     System.out.print(s + " ");
+        // }
+        // System.out.println();
 
-        return answer;
+        return set.size();
     }
     
-    public boolean isPrime(int num){
-        Map<Integer, Integer> map = new HashMap<>();
-        for(int i=2; i<=Math.sqrt(num); i++){
-            while(num % i == 0){
-                num /= i;
-                map.put(i,map.getOrDefault(i,0)+1);
-            }
-        }
-        if(num > 1){
-            map.put(num,map.getOrDefault(num,0)+1);
-        }
-        int result = 1;
-        for(int i : map.keySet()){
-            result *= (map.get(i)+1);
-        }
-        if(result > 2){
-            return false;
-        }
-        return true;
-    }
-    
-    public void dfs(int count, String numbers){
+    public void dfs(String numbers, int depth){
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i<count; i++){
-            sb.append(result[i]);
+        for(int i=0; i<depth; i++){
+            sb.append(String.valueOf(numArray[i]));
+            //System.out.print(numArray[i]);
         }
-        numSet.add(Integer.parseInt(sb.toString()));
+        int result = Integer.parseInt(sb.toString());
+        if(prime(result)) set.add(result);
+        //System.out.println();
         
         for(int i=0; i<numbers.length(); i++){
             if(!visit[i]){
+                int num = numbers.charAt(i) - '0';
                 visit[i] = true;
-                result[count] = numbers.charAt(i);
-                dfs(count + 1, numbers);
+                numArray[depth] = num;
+                dfs(numbers, depth+1);
                 visit[i] = false;
             }
         }
     }
-   
+    
+    public boolean prime(int num){
+        if(num == 1 || num == 0)    return false;
+        
+        for(int i=2; i<=Math.sqrt(num); i++){
+            if(num % i == 0) {
+                //System.out.println(i);
+                return false;
+            }
+        }
+        return true;
+    }
 }
