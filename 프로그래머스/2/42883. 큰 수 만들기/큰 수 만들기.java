@@ -1,37 +1,52 @@
+
 import java.util.*;
 class Solution {
     public String solution(String number, int k) {
         String answer = "";
-        int[] num = new int[number.length()];
+        Deque<Integer> q = new LinkedList<>();
+        int resultLen = number.length() - k;
+
+        int lastIndex = 0;
+        for(int i=0; i<number.length(); i++){
+            int cur = number.charAt(i)-'0';
+            
+            while(!q.isEmpty()){
+                int prev = q.peekLast();
+                if(prev < cur){
+                    //System.out.println(prev + " 제거"); 
+                    q.pollLast();
+                    k--;
+                    if(k <= 0)  break;
+                }else{
+                    break;
+                }
+            }
+            if(k <= 0) {
+                lastIndex = i;
+                //System.out.println(i); 
+                break;
+            } 
+            q.addLast(cur);
+            //System.out.println(cur + " 추가"); 
+        }
+        if(k > 0) {
+            lastIndex = number.length()-1;
+        }
+       //System.out.println(lastIndex);
+        
+        
         StringBuilder sb = new StringBuilder();
         
-        for(int i=0; i<number.length(); i++){
-            num[i] = number.charAt(i) - '0';
+        while(!q.isEmpty()){
+            sb.append(q.pollFirst());
+            if(--resultLen <= 0)    break;
+        }
+        //System.out.println(lastIndex + " " + resultLen);
+        
+        for(int i=lastIndex; i<lastIndex + resultLen; i++){
+            sb.append(String.valueOf(number.charAt(i)));
         }
         
-        int start = 0;
-        for(int i=k; i<number.length(); i++){
-            //System.out.print(start + " ~ " + i);
-            int maxIndex = max(num, start, i);
-            start = maxIndex + 1;
-            sb.append(String.valueOf(num[maxIndex]));
-            //System.out.println(" max " + num[maxIndex]);
-        }
-        answer = sb.toString();
-        return answer;
+        return sb.toString();
     }
-    
-    public int max(int[] num, int start, int end){  // 가장 큰 수의 위치 반환
-        int max = -1;
-        int maxIndex = 0;
-        for(int i=start; i<=end; i++){
-            if(num[i] > max){
-                max = num[i];
-                maxIndex = i;
-            }
-        }
-        return maxIndex;
-    }
-    
-    
 }
