@@ -1,6 +1,6 @@
 # [level 2] 노선별 평균 역 사이 거리 조회하기 - 284531 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/284531#qna) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/284531) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 05월 09일 10:47:34
+2024년 10월 18일 16:47:17
 
 ### 문제 설명
 
