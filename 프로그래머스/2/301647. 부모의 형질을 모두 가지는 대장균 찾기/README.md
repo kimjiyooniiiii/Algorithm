@@ -1,6 +1,6 @@
 # [level 2] 부모의 형질을 모두 가지는 대장균 찾기 - 301647 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/301647#qna) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/301647) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 05월 09일 15:20:28
+2024년 11월 01일 15:42:23
 
 ### 문제 설명
 
